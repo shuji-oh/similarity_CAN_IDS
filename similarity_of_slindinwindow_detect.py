@@ -24,7 +24,7 @@ def function_E(Ra, Rn, Rt):
 	global C3
 	return Ra*C1-Rn*C2-Rt*C3
 
-def EntropyBased_IntrusionDetect(Test_Data, k, div, WindowSize):
+def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize):
 	
 	# Ra is detection rate attack blocks 
 	# Rn is detection rate normal blocks
@@ -67,7 +67,7 @@ def EntropyBased_IntrusionDetect(Test_Data, k, div, WindowSize):
 			id_i += 1
 
 			# if canid_list of WindowSize is created,
-			# entropy H_I is calculated.
+			# similarity Simpson Coefficient is calculated.
 			if id_i == WindowSize:
 				#print(canid_list)
 				w_count += 1
@@ -82,7 +82,7 @@ def EntropyBased_IntrusionDetect(Test_Data, k, div, WindowSize):
 				SimpsonCoefficient = overlap_coefficient(num_intersection, WindowSize)
 				print("[%d] SimpsonCoefficient=%f"%(w_count, SimpsonCoefficient))
 
-				# perform Intrusion Detection using Sliding Entropy
+				# perform Intrusion Detection using Sliding Similarity
 				if SimpsonCoefficient < (ave-k*div) or (ave+k*div) < SimpsonCoefficient:
 					# True Positive
 					if True_count > False_count:
@@ -108,7 +108,7 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 	k_best		= 0.8
 	div_best	= random.random()
 	W_best		= random.randint(5,70)
-	Ra, Rn, Rt 	= EntropyBased_IntrusionDetect(DoS_Data, k_best, div_best, W_best)
+	Ra, Rn, Rt 	= SimilarityBased_IntrusionDetect(DoS_Data, k_best, div_best, W_best)
 	e_best		= function_E(Ra, Rn, Rt)
 	e_prev 		= function_E(Ra, Rn, Rt)-1
 	print("Ra=%f,Rn=%f,Rt=%f"%(Ra,Rn,Rt))
@@ -122,7 +122,7 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 		W_next = random.randint(W_best-10,W_best+10)
 
 		# row 8 in paper
-		Ra, Rn, Rt = EntropyBased_IntrusionDetect(DoS_Data, k_best, div_next, W_next)
+		Ra, Rn, Rt = SimilarityBased_IntrusionDetect(DoS_Data, k_best, div_next, W_next)
 		e_next = function_E(Ra, Rn, Rt)
 		print("Ra=%f,Rn=%f,Rt=%f"%(Ra,Rn,Rt))
 		#print("E=%f,E_best=%f"%(e_next,e_best))
@@ -142,7 +142,7 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 				W_best 		= W_prev
 				e_best 		= e_prev
 
-		# update templature
+		# cool down
 		T = T * cool
 
 	return div_best, W_best
