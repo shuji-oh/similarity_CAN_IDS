@@ -68,14 +68,12 @@ def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize, similarity_se
 			# if canid_list of WindowSize is created,
 			# similarity Simpson Coefficient is calculated.
 			if id_i == WindowSize:
-				#print(canid_list)
 				w_count += 1
 				id_count = [0 for i in range(2048)]
 				for canid in canid_list:
-					id_count[int(canid, 16)] += 1
-					if w_count != 1:
-						if similarity_set[int(canid, 16)] != 0 and id_count[int(canid, 16)] != 0:
-							num_intersection += 1
+					id_count[int(canid, 16)] = 1
+					if similarity_set[int(canid, 16)] == 1 and id_count[int(canid, 16)] == 1:
+						num_intersection += 1
 				
 				# calculate Simpson coefficient
 				SimpsonCoefficient = overlap_coefficient(num_intersection, WindowSize)
@@ -155,7 +153,7 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 						temp_set = [0 for i in range(2048)]
 		for canid in range(0, 2048):
 			if best_set[canid] == 1:
-				print("[WindowSize=%d], %x"%(W_next, canid))
+				print("WindowSize=%d,similarity_set[0x%x]=1"%(W_next, canid))
 		e_next = e_next_maxima
 		print("Ra=%f,Rn=%f,Rt=%f,Precision=%f"%(Ra,Rn,Rt,float(Ra)/(Ra+Rn)))
 		#print("E=%f,E_best=%f"%(e_next,e_best))
