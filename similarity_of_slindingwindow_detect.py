@@ -71,9 +71,10 @@ def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize, similarity_se
 				w_count += 1
 				id_count = [0 for i in range(2048)]
 				for canid in canid_list:
-					id_count[int(canid, 16)] = 1
+					id_count[int(canid, 16)] += 1
 					if similarity_set[int(canid, 16)] == 1 and id_count[int(canid, 16)] == 1:
 						num_intersection += 1
+					
 				
 				# calculate Simpson coefficient
 				SimpsonCoefficient = overlap_coefficient(num_intersection, WindowSize)
