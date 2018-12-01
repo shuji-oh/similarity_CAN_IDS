@@ -12,17 +12,18 @@ Tn_packet = 1000
 # Three weighted parameters
 C1 = 1
 C2 = 0.5
-C3 = 1
+C3 = 2
 
 def overlap_coefficient(num_intersection, WindowSize):
 	return float(num_intersection)/WindowSize
 
 # define energy function
-def function_E(Ra, Rn, Rt):
+def function_E(Ra, Rn, W):
 	global C1
 	global C2
 	global C3
-	return Ra*C1-Rn*C2-Rt*C3
+	#print(Ra)
+	return Ra*C1-Rn*C2-W*C3
 
 def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize, similarity_set):
 	
@@ -104,7 +105,7 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 	#vec = random.randint(-2,2)
 	k_best		= 0.8
 	div_best	= random.random()
-	W_best		= random.randint(25,70)
+	W_best		= random.randint(1,50)
 	#Ra, Rn, Rt 	= SimilarityBased_IntrusionDetect(DoS_Data, k_best, div_best, W_best)
 	Ra, Rn, Rt 	= 0, 0, 0
 	e_best		= function_E(Ra, Rn, Rt)
@@ -126,7 +127,7 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 		temp_set = [0 for i in range(2048)]
 
 		div_next = random.uniform(div_best-0.5,div_best+0.5)
-		W_next = random.randint(W_best-10, W_best+10)
+		W_next = random.randint(W_best-5, W_best+5)
 		if W_next == 0:
 			W_next = 1
 
@@ -146,7 +147,7 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 							temp_set[int(canid, 16)] = 1
 						if best_window == W_count:
 							Ra, Rn, Rt = SimilarityBased_IntrusionDetect(DoS_Data, k_best, div_next, W_next, temp_set)
-							e_next = function_E(Ra, Rn, Rt)
+							e_next = function_E(Ra, Rn, W_next)
 							if e_next_maxima < e_next:
 								e_next_maxima = e_next
 								best_set = temp_set
@@ -196,10 +197,11 @@ if __name__ == '__main__':
 	for i in range(N):
 		div, WindowSize, Ra, Rn, Rt = SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99)
 		if (Ra+Rn) != 0:
-			if precison_max < float(Ra)/(Ra+Rn) and 80.0 < Ra:
+			if precison_max < float(Ra)/(Ra+Rn) and 90.0 < Ra:
 				precison_max = float(Ra)/(Ra+Rn)
 				Ra_max = Ra
 				Rn_max = Rn
 				Rt_max = Rt
-		print("[%d]Optimazed Param:Deviation=%f, WindowSize=%d" %(i, div, WindowSize))
-	print("Ra=%f,Rn=%f,Rt=%f,Precision=%f"%(Ra_max,Rn_max,Rt_max,precison_max))
+		#print("[%d]Optimazed Param:Deviation=%f, WindowSize=%d" %(i, div, WindowSize))
+	#print("Ra=%f,Rn=%f,Rt=%f,Precision=%f"%(Ra_max,Rn_max,Rt_max,precison_max))
+	print(precison_max*100.0)

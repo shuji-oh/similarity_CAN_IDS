@@ -12,17 +12,17 @@ Tn_packet = 1000
 # Three weighted parameters
 C1 = 1
 C2 = 0.5
-C3 = 1
+C3 = 2
 
 def overlap_coefficient(num_intersection, WindowSize):
 	return float(num_intersection)/WindowSize
 
 # define energy function
-def function_E(Ra, Rn, Rt):
+def function_E(Ra, Rn, W):
 	global C1
 	global C2
 	global C3
-	return Ra*C1-Rn*C2-Rt*C3
+	return Ra*C1-Rn*C2-W*C3
 
 def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize, similarity_set):
 	
@@ -104,11 +104,11 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 	#vec = random.randint(-2,2)
 	k_best		= 0.8
 	div_best	= random.random()
-	W_best		= random.randint(5,70)
+	W_best		= random.randint(1,50)
 	#Ra, Rn, Rt 	= SimilarityBased_IntrusionDetect(DoS_Data, k_best, div_best, W_best)
 	Ra, Rn, Rt 	= 0, 0, 0
-	e_best		= function_E(Ra, Rn, Rt)
-	e_prev 		= function_E(Ra, Rn, Rt)-1
+	e_best		= function_E(Ra, Rn, W_best)
+	e_prev 		= function_E(Ra, Rn, W_best)-1
 
 	canid_list = list()
 	id_i = 0
@@ -125,8 +125,8 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 		best_set = [0 for i in range(2048)]
 		temp_set = [0 for i in range(2048)]
 
-		div_next = random.random()
-		W_next = random.randint(W_best-10, W_best+10)
+		div_next = random.uniform(div_best-0.5,div_best+0.5)
+		W_next = random.randint(W_best-5, W_best+5)
 
 		# row 8 in paper
 		with open(DoS_Data) as Is:
@@ -144,7 +144,7 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 							temp_set[int(canid, 16)] = 1
 						if best_window == W_count:
 							Ra, Rn, Rt = SimilarityBased_IntrusionDetect(DoS_Data, k_best, div_next, W_next, temp_set)
-							e_next = function_E(Ra, Rn, Rt)
+							e_next = function_E(Ra, Rn, W_next)
 							if e_next_maxima < e_next:
 								e_next_maxima = e_next
 								best_set = temp_set
