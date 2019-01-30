@@ -31,8 +31,8 @@ python3, gcc
 
 ## Usage
 
-$ git clone https://github.com/ohirangosta/similarity_CAN_IDS
-$ cd similarity_CAN_IDS
+$ git clone https://github.com/ohirangosta/similarity_CAN_IDS  
+$ cd similarity_CAN_IDS  
 $ ./build.sh release  
 
 ## Contribution
