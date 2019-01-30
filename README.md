@@ -13,17 +13,17 @@ similarity_CAN_IDS is State-of-the-art intrusion detection method agaist DoS att
 
 similarity_CAN_IDS  
 ┣━ off-line_learning_phase  
-┃	┣━ similarity_of_slindingwindow_detect.py
+┃	┣━ similarity_of_slindingwindow_detect.py  
 ┃	┣━ eval_similarity_of_slindingwindow_detect.py  
 ┃	┗━ similarity_calc.py  
 ┣━ on-line_detection_phase  
-┃	┣━ fastDoSdetect.c
-┃	┣━ Makefile
-┃	┣━ lib.c
-┃   ┣━ lib.h
-┃	┗━ terminal.h   
-┣━ paper.pdf
-┗━ README.md
+┃	┣━ fastDoSdetect.c  
+┃	┣━ Makefile  
+┃	┣━ lib.c  
+┃   ┣━ lib.h  
+┃	┗━ terminal.h  
+┣━ paper.pdf  
+┗━ README.md  
 
 ## Requirement
 
