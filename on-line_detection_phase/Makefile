@@ -1,4 +1,4 @@
 similarity_CAN_IDS:
-
+	gcc -o similarity_CAN_IDS similarity_CAN_IDS.c
 clean:
-    $(RM) similarity_CAN_IDS
+	rm -f similarity_CAN_IDS similarity_CAN_IDS.o

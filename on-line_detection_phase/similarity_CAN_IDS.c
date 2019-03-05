@@ -223,12 +223,14 @@ int main(int argc, char **argv)
 	double SimpsonCoefficient = 0.0;
 	struct timespec ts_start, ts_end;
 	FILE *fp;
+	char hex_canid[30];
 
-	fp = fopen("../CIDs", "r"); // ファイルを開く。失敗するとNULLを返す。
+	fp = fopen("../CIDs.txt", "r"); // ファイルを開く。失敗するとNULLを返す。
+	printf("[CIDs]\n");
 	while((fgets(hex_canid,256,fp))!=NULL){
 		int dec_canid = strtol(hex_canid, NULL, 16);
 		CIDs[dec_canid]++;
-		printf("%d:%d\n", dec_canid, CIDs[dec_canid]);
+		printf("CIDs[0x%x]=%d\n", dec_canid, CIDs[dec_canid]);
     }
 
 	while ((opt = getopt(argc, argv, "t:ciaSs:b:B:u:ldLn:r:he?")) != -1) {
