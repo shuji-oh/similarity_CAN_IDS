@@ -206,9 +206,9 @@ if __name__ == '__main__':
 	print("Precison:%f"%(precison_max*100.0))
 	print("Optimazed Param:Deviation=%f WindowSize=%d" %(div_max, WindowSize_max))
 	print(CIDs_max, len(CIDs_max))
-	with open("../optimazed_params.txt", "wt") as f:
-		f.write(str(div_max)+'\n')
-		f.write(str(WindowSize_max)+'\n')
 	with open("../CIDs.txt", "wt") as f:
 		for ele in CIDs_max:
 			f.write(ele[2:]+'\n')
+	with open("../optimazed_params.txt", "wt") as f:
+		f.write(str(div_max)+'\n')
+		f.write(str(WindowSize_max)+'\n')
