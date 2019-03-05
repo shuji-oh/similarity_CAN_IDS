@@ -4,8 +4,6 @@ import random	#Random module
 import math
 
 # Ta is attack log total packet num, Tn is normal log total packet num
-#Ta_packet = 1000
-#Tn_packet = 57001
 Ta_packet = 1000
 Tn_packet = 1000
 
@@ -22,7 +20,6 @@ def function_E(Ra, Rn, W):
 	global C1
 	global C2
 	global C3
-	#print(Ra)
 	return Ra*C1-Rn*C2-W*C3
 
 def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize, similarity_set):
@@ -62,8 +59,7 @@ def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize, similarity_se
 				True_count += 1
 			else:
 				False_count += 1
-			#print(labels)
-			#print(canpacket[0])
+
 			id_i += 1
 
 			# if canid_list of WindowSize is created,
@@ -73,14 +69,12 @@ def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize, similarity_se
 				id_count = [0 for i in range(2048)]
 				for canid in canid_list:
 					id_count[int(canid, 16)] += 1
-					if similarity_set[int(canid, 16)] == 1 and id_count[int(canid, 16)] == 1:
+					if (similarity_set[int(canid, 16)] - id_count[int(canid, 16)] > 0 and id_count[int(canid, 16)] != 0) or (similarity_set[int(canid, 16)] == id_count[int(canid, 16)] and id_count[int(canid, 16)] != 0):
 						num_intersection += 1
-					
 				
 				# calculate Simpson coefficient
 				SimpsonCoefficient = overlap_coefficient(num_intersection, WindowSize)
-				#print("[%d] SimpsonCoefficient=%f"%(w_count, SimpsonCoefficient))
-
+				
 				# perform Intrusion Detection using Sliding Similarity
 				if SimpsonCoefficient < (ave-k*div) or (ave+k*div) < SimpsonCoefficient:
 					# True Positive
@@ -97,16 +91,13 @@ def SimilarityBased_IntrusionDetect(Test_Data, k, div, WindowSize, similarity_se
 				id_i = 0
 				True_count = 0
 				False_count = 0
-	#print("W=%d, Ta=%d, Tn=%d, Da=%d, Dn=%d"%(WindowSize, Ta, Tn, Da, Dn))
 	return Ra, Rn, Rt
 
 def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 	# init random value
-	#vec = random.randint(-2,2)
 	k_best		= 0.8
 	div_best	= random.random()
 	W_best		= random.randint(1,50)
-	#Ra, Rn, Rt 	= SimilarityBased_IntrusionDetect(DoS_Data, k_best, div_best, W_best)
 	Ra, Rn, Rt 	= 0, 0, 0
 	e_best		= function_E(Ra, Rn, Rt)
 	e_prev 		= function_E(Ra, Rn, Rt)-1
@@ -114,13 +105,8 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 	canid_list = list()
 	id_i = 0
 
-	#print("Ra=%f,Rn=%f,Rt=%f"%(Ra,Rn,Rt))
-	#print("E_best=%f"%e_best)
-
-	#print("init_Param:Deviation=%f,WindowSize=%d" %(div_best, W_best))
-
 	while T > 0.0001 and e_prev < e_best:
-		# row 7 in paper
+		# Algorithm 2 line 7
 		e_next_maxima = 0.0
 		W_count = 0
 		best_set = [0 for i in range(2048)]
@@ -128,10 +114,12 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 
 		div_next = random.uniform(div_best-0.5,div_best+0.5)
 		W_next = random.randint(W_best-5, W_best+5)
-		if W_next == 0:
-			W_next = 1
+		if W_next < 5:
+			W_next = 5
+		elif W_next > 50:
+			W_next = 50
 
-		# row 8 in paper
+		# Algorithm 2 line 8
 		with open(DoS_Data) as Is:
 			for best_window in range(0, int(Tn_packet/W_next)):
 				for I in Is:
@@ -143,8 +131,8 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 
 					if id_i == W_next:
 						for canid in canid_list:
-							# 類似度を比較する集合を算出
-							temp_set[int(canid, 16)] = 1
+							# calclate CIDs (=temp_set)
+							temp_set[int(canid, 16)] += 1
 						if best_window == W_count:
 							Ra, Rn, Rt = SimilarityBased_IntrusionDetect(DoS_Data, k_best, div_next, W_next, temp_set)
 							e_next = function_E(Ra, Rn, W_next)
@@ -155,17 +143,12 @@ def SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99):
 						id_i = 0
 						canid_list = list()
 						temp_set = [0 for i in range(2048)]
-
 		e_next = e_next_maxima
-		#print("Ra=%f,Rn=%f,Rt=%f,Precision=%f"%(Ra,Rn,Rt,float(Ra)/(Ra+Rn)))
-		#print("E=%f,E_best=%f"%(e_next,e_best))
 
 		# calcurate probability from templature.
 		p = pow(math.e, -abs(e_next - e_prev)/float(T))
-		#print("[%f]Probability=%f"%(T, p))
 
-		# 変更後のコストが小さければ採用する。
-		# コストが大きい場合は確率的に採用する。
+		# Algorithm 2 line 20-25
 		if random.random() < p:
 			div_prev 	= div_next
 			W_prev 		= W_next
@@ -188,11 +171,14 @@ if __name__ == '__main__':
 	Rn_max = 0.0
 	Rt_max = 0.0
 	N = 100
+	
+	# format error
 	if argc < 2:
 		print('Usage: python3 %s filename' % argvs[0])
 		print('[filename format]\n\t[label] [CAN ID]#[PAYLOAD]\nex)\t1 000#00000000')
 		quit()
 
+	# run Off-line learning phase
 	DoS_Data = argvs[1]
 	for i in range(N):
 		div, WindowSize, Ra, Rn, Rt = SimulatedAnnealing_Optimize(DoS_Data, T=10000, cool=0.99)
@@ -202,6 +188,5 @@ if __name__ == '__main__':
 				Ra_max = Ra
 				Rn_max = Rn
 				Rt_max = Rt
-		#print("[%d]Optimazed Param:Deviation=%f, WindowSize=%d" %(i, div, WindowSize))
-	#print("Ra=%f,Rn=%f,Rt=%f,Precision=%f"%(Ra_max,Rn_max,Rt_max,precison_max))
+		
 	print(precison_max*100.0)

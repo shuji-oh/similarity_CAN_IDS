@@ -1,48 +1,5 @@
 /*
- *  $Id$
- */
-
-/*
- * candump.c
- *
- * Copyright (c) 2002-2009 Volkswagen Group Electronic Research
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of Volkswagen nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * Alternatively, provided that this notice is retained in full, this
- * software may be distributed under the terms of the GNU General
- * Public License ("GPL") version 2, in which case the provisions of the
- * GPL apply INSTEAD OF those given above.
- *
- * The provided data structures and external interfaces from this code
- * are not restricted to be used by modules with a GPL compatible license.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
- * DAMAGE.
- *
- * Send feedback to <linux-can@vger.kernel.org>
- *
+ * similarity_CAN_IDS.c
  */
 
 #include <stdio.h>
@@ -259,32 +216,20 @@ int main(int argc, char **argv)
 	double k = 0.8;
 	double div = 0.549064;
 	double ave = 0.8;
-	int SIDs[2048];
+	int CIDs[2048];
 	int compare_set[2048];
 	int num_intersection = 0;
 	int Window_i = 0;
 	double SimpsonCoefficient = 0.0;
 	struct timespec ts_start, ts_end;
+	FILE *fp;
 
-	SIDs[0x80]=1;
-	SIDs[0x81]=1;
-	SIDs[0x153]=1;
-	SIDs[0x164]=1;
-	SIDs[0x165]=1;
-	SIDs[0x18f]=1;
-	SIDs[0x220]=1;
-	SIDs[0x2a0]=1;
-	SIDs[0x2b0]=1;
-	SIDs[0x316]=1;
-	SIDs[0x329]=1;
-	SIDs[0x370]=1;
-	SIDs[0x382]=1;
-	SIDs[0x43f]=1;
-	SIDs[0x440]=1;
-	SIDs[0x4b0]=1;
-	SIDs[0x4b1]=1;
-	SIDs[0x545]=1;
-	SIDs[0x5a2]=1;
+	fp = fopen("../CIDs", "r"); // ファイルを開く。失敗するとNULLを返す。
+	while((fgets(hex_canid,256,fp))!=NULL){
+		int dec_canid = strtol(hex_canid, NULL, 16);
+		CIDs[dec_canid]++;
+		printf("%d:%d\n", dec_canid, CIDs[dec_canid]);
+    }
 
 	while ((opt = getopt(argc, argv, "t:ciaSs:b:B:u:ldLn:r:he?")) != -1) {
 		switch (opt) {
@@ -670,7 +615,7 @@ int main(int argc, char **argv)
 					
 				/* fast DoS detect Sliding Window Similarity */
 				compare_set[frame.can_id] += 1;
-				if (compare_set[frame.can_id] == 1 && SIDs[frame.can_id] == 1) {
+				if (compare_set[frame.can_id] == CIDs[frame.can_id] || (CIDs[frame.can_id] - compare_set[frame.can_id]) > 0 ) {
 					num_intersection++;
 				}
 
