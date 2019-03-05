@@ -224,6 +224,10 @@ int main(int argc, char **argv)
 	struct timespec ts_start, ts_end;
 	FILE *fp;
 	char hex_canid[30];
+	
+	for(i = 0; i < 2048; i++) {
+		CIDs[i] = 0;
+	}
 
 	fp = fopen("../CIDs.txt", "r"); // ファイルを開く。失敗するとNULLを返す。
 	printf("[CIDs]\n");
@@ -231,6 +235,7 @@ int main(int argc, char **argv)
 		int dec_canid = strtol(hex_canid, NULL, 16);
 		CIDs[dec_canid]++;
 		printf("CIDs[0x%x]=%d\n", dec_canid, CIDs[dec_canid]);
+		memset(hex_canid, 0, sizeof(hex_canid));
     }
 
 	while ((opt = getopt(argc, argv, "t:ciaSs:b:B:u:ldLn:r:he?")) != -1) {
@@ -612,8 +617,8 @@ int main(int argc, char **argv)
 					fprintf(stderr, "read: incomplete CAN frame\n");
 					return 1;
 				}
-				//if (Window_i == 0)
-				clock_gettime(CLOCK_REALTIME, &ts_start);
+				if (Window_i == 0)
+					clock_gettime(CLOCK_REALTIME, &ts_start);
 					
 				/* fast DoS detect Sliding Window Similarity */
 				compare_set[frame.can_id] += 1;
