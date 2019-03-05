@@ -17,7 +17,7 @@ similarity_CAN_IDS
 ┣━ off-line_learning_phase  
 ┃	┣━ output_similarity.py  
 ┃	┣━ eval_similarity_CAN_IDS.py  
-┃	┗━ output_CIDs.py  
+┃	┗━ output_params.py  
 ┣━ on-line_detection_phase  
 ┃	┣━ similarity_CAN_IDS.c  
 ┃	┣━ Makefile  
