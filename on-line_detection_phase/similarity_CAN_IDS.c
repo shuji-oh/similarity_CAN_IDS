@@ -244,11 +244,11 @@ int main(int argc, char **argv)
     fp = fopen("../optimazed_params.txt", "r");
     printf("[optimazed_params]\n");
     if (fgets(div_str,256,fp)!=NULL) {
-    	div = double(div_str);
+    	div = atof(div_str);
     	printf("Deviation:%lf\n", div);
     }
-    if (fgets(div_str,256,fp)!=NULL) {
-    	WindowSize = int(Window_str);
+    if (fgets(Window_str,256,fp)!=NULL) {
+    	WindowSize = atoi(Window_str);
     	printf("Sliding_Window=%d\n", WindowSize);
     }
 
