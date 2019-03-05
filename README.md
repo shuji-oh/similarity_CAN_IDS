@@ -25,6 +25,7 @@ similarity_CAN_IDS
 ┃   ┣━ lib.h  
 ┃	┗━ terminal.h  
 ┣━ CIDs.txt  
+┣━ optimazed_params.txt  
 ┣━ paper.pdf  
 ┗━ README.md  
 

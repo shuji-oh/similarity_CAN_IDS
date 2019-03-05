@@ -224,18 +224,32 @@ int main(int argc, char **argv)
 	struct timespec ts_start, ts_end;
 	FILE *fp;
 	char hex_canid[30];
+	char div_str[30];
+	char Window_str[30];
 	
 	for(i = 0; i < 2048; i++) {
 		CIDs[i] = 0;
 	}
 
-	fp = fopen("../CIDs.txt", "r"); // ファイルを開く。失敗するとNULLを返す。
+	fp = fopen("../CIDs.txt", "r");
 	printf("[CIDs]\n");
 	while((fgets(hex_canid,256,fp))!=NULL){
 		int dec_canid = strtol(hex_canid, NULL, 16);
 		CIDs[dec_canid]++;
 		printf("CIDs[0x%x]=%d\n", dec_canid, CIDs[dec_canid]);
 		memset(hex_canid, 0, sizeof(hex_canid));
+    }
+    fclose(fp);
+
+    fp = fopen("../optimazed_params.txt", "r");
+    printf("[optimazed_params]\n");
+    if (fgets(div_str,256,fp)!=NULL) {
+    	div = double(div_str);
+    	printf("Deviation:%lf\n", div);
+    }
+    if (fgets(div_str,256,fp)!=NULL) {
+    	WindowSize = int(Window_str);
+    	printf("Sliding_Window=%d\n", WindowSize);
     }
 
 	while ((opt = getopt(argc, argv, "t:ciaSs:b:B:u:ldLn:r:he?")) != -1) {
