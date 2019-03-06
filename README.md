@@ -1,15 +1,15 @@
 similarity_CAN_IDS
 ====
 
-### Overview
+## Overview
 
-similarity_CAN_IDS is State-of-the-art intrusion detection method agaist DoS attack on CAN.
+similarity_CAN_IDS is State-of-the-art DoS attacks detection method on CAN bus.
 
-"Fast Detection Method Based on Similarity of Sliding Windows against DoS Attack on In-vehicle Network"
+Shuji Ohira et al. "DoS Attacks Fast Detection Method Based on Similarity of Sliding Windows on In-vehicle Network"
 
 ## Description
 
-
+The entropy_CAN_IDS (Conventional method) cannot detect an entropy-manipulated attack in which an adversary adjusts the entropy of a DoS attack to a normal value. Thus, we proposed the similarity_CAN_IDS that is State-of-the-art DoS attacks detection method on CAN bus. The proposed method use not entropy but similarity to detect intrusion detection.
 
 ## Directory Structure
 
