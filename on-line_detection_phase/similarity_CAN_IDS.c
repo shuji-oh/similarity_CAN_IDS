@@ -168,7 +168,7 @@ void SimilarityBased_DoSAttackDetect(double SimpsonCoefficient, double k, double
 	if ((SimpsonCoefficient < (ave - k*div)) || (ave + k*div) < SimpsonCoefficient) {
 		clock_gettime(CLOCK_REALTIME, &ts_end);
 		detect_time = (double)(ts_end.tv_sec+pow(10, -9)*((double)ts_end.tv_nsec))-(double)(ts_start.tv_sec+pow(10, -9)*((double)ts_start.tv_nsec));
-    	printf("[fastDoSdetect] DetectionTime=%lf\n", detect_time);
+    	printf("[similarity_IDS] DetectionTime=%lf\n", detect_time);
 	}
 }
 
@@ -642,7 +642,7 @@ int main(int argc, char **argv)
 
 				if (++Window_i >= WindowSize) {
 					SimpsonCoefficient = overlap_coefficient(num_intersection, WindowSize);
-					//printf("[fastDoSdetect] SimpsonCoefficient=%lf\n", SimpsonCoefficient);
+					//printf("[similarity_IDS] SimpsonCoefficient=%lf\n", SimpsonCoefficient);
 					SimilarityBased_DoSAttackDetect(SimpsonCoefficient, k, div, ave, WindowSize, ts_start, ts_end);
 										
 					//initialize params
