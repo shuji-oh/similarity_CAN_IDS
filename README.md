@@ -5,7 +5,7 @@ similarity_CAN_IDS
 
 The similarity_CAN_IDS is a state-of-the-art DoS attacks detection method on CAN bus.
 
-Shuji Ohira, Araya Kibrom Desta, Ismail Arai, Hiroyuki Inoue, Kazutoshi Fujikawa, "Normal and Malicious Sliding Windows Similarity Analysis Method for Fast and Accurate IDS against DoS Attacks on In-Vehicle Networks.", IEEE Access, pp.1-15, 2020. (in press)
+Shuji Ohira, Araya Kibrom Desta, Ismail Arai, Hiroyuki Inoue, Kazutoshi Fujikawa, "Normal and Malicious Sliding Windows Similarity Analysis Method for Fast and Accurate IDS against DoS Attacks on In-Vehicle Networks.", IEEE Access, pp.1-14, 2020. (in press)
 
 ```
 @article{ohira2020similarity_based_IDS,
