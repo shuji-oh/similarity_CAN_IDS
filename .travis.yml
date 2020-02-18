@@ -2,9 +2,6 @@ matrix:
   include:
     - language: python
       python:
-        - 3.4,
-        - 3.5,
-        - 3.6,
         - 3.7
       script:
         - python off-line_learning_phase/output_params.py
