@@ -1,16 +1,17 @@
-include:
-  - language: python
-    python:
-      - 3.4
-      - 3.5
-      - 3.6
-      - 3.7
-    script:
-      - python off-line_learning_phase/output_params.py
+matrix:
+  include:
+    - language: python
+      python:
+        - 3.4,
+        - 3.5,
+        - 3.6,
+        - 3.7
+      script:
+        - python off-line_learning_phase/output_params.py
 
-  - language: c
-    compiler: gcc
-    before_script:
-      - cd on-line_detection_phase
-    script:
-      - make
+    - language: c
+      compiler: gcc
+      before_script:
+        - cd on-line_detection_phase
+      script:
+        - make
