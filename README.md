@@ -1,4 +1,4 @@
-similarity_CAN_IDS
+similarity_CAN_IDS: Normal and Malicious Sliding Windows Similarity Analysis Method for Fast and Accurate IDS against DoS Attacks on In-Vehicle Networks
 ====
 
 [![Build Status](https://travis-ci.com/shuji-oh/similarity_CAN_IDS.svg?token=Pqsitpmqbb4Dofx7SdpB&branch=master)](https://travis-ci.com/shuji-oh/similarity_CAN_IDS)
