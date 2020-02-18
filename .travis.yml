@@ -1,13 +1,18 @@
-language: python
+matrix:
+  include:
+    - os: linux
+    - language: python
+      python:
+        - "3.4"
+        - "3.5"
+        - "3.6"
+        - "3.7"
+      script:
+        - python off-line_learning_phase/output_params.py
 
-python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "3.7"
-
-script: 
-  - python ./off-line_learning_phase/output_params.py
-
-install: true
+    - language: c
+      compiler: gcc
+      before_script:
+        - cd on-line_detection_phase
+      script:
+        - make
