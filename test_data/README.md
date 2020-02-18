@@ -9,11 +9,15 @@ test_data.log
 0 			165#0008800000000880  
 . 			.  
 .			.  
+1 			000#0000000000000000  
+1 			000#0000000000000000  
+1 			000#0000000000000000  
+.			.  
 .			.  
 
-[labels]		0:Normal message, 1:DoS Attack message  
-[CAN_messages] 	[CAN ID]#[Data Fields]  
+labels         :0 (Normal message), 1 (DoS Attack message)  
+CAN_messages   :(CAN ID)#(Data Fields)  
 
-### candump_format2similarity_CAN_IDS_format command  
+### How to convert candump format to similarity_CAN_IDS format  
 
 $ cat candump-2019-xx-xx_xxxxxx.log | awk '{print 0,$3}' > test_data.log  
