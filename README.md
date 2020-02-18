@@ -3,18 +3,31 @@ similarity_CAN_IDS
 
 ## Overview
 
-similarity_CAN_IDS is State-of-the-art DoS attacks detection method on CAN bus.
+The similarity_CAN_IDS is a state-of-the-art DoS attacks detection method on CAN bus.
 
-Shuji Ohira et al. "DoS Attacks Fast Detection Method Based on Similarity of Sliding Windows on In-vehicle Network"
+Shuji Ohira, Araya Kibrom Desta, Ismail Arai, Hiroyuki Inoue, Kazutoshi Fujikawa, "Normal and Malicious Sliding Windows Similarity Analysis Method for Fast and Accurate IDS against DoS Attacks on In-Vehicle Networks.", IEEE Access, pp.1-15, 2020. (in press)
+
+```
+@article{ohira2020similarity_based_IDS,
+  title={Normal and Malicious Sliding Windows Similarity Analysis Method for Fast and Accurate IDS against DoS Attacks on In-Vehicle Networks},
+  author={Ohira, Shuji and Kibrom Desta, Araya and Arai, Ismail and Inoue, Hiroyuki and Fujikawa, Kazutoshi},
+  journal={IEEE Access},
+  volume={},
+  pages={1--14},
+  year={2020},
+  publisher={IEEE}
+}
+```
 
 ## Description
 
-The entropy_CAN_IDS (Conventional method) cannot detect an entropy-manipulated attack in which an adversary adjusts the entropy of a DoS attack to a normal value. Thus, we proposed the similarity_CAN_IDS that is State-of-the-art DoS attacks detection method on CAN bus. The proposed method use not entropy but similarity to detect intrusion detection.
+We demonstrated that an entropy_CAN_IDS (Conventional method) cannot detect an entropy-manipulated attack in which an adversary adjusts the entropy of a DoS attack to a normal value. Thus, we proposed the similarity_CAN_IDS that is a state-of-the-art detection method on CAN bus. The proposed method use not entropy but similarity to detect intrusion detection.
 
 ## Directory Structure
 
 similarity_CAN_IDS  
 ┣━ off-line_learning_phase  
+┃	┣━ README.md  
 ┃	┣━ output_similarity.py  
 ┃	┣━ eval_similarity_CAN_IDS.py  
 ┃	┗━ output_params.py  
@@ -26,7 +39,6 @@ similarity_CAN_IDS
 ┃	┗━ terminal.h  
 ┣━ CIDs.txt  
 ┣━ optimazed_params.txt  
-┣━ paper.pdf  
 ┗━ README.md  
 
 ## Requirement
@@ -46,4 +58,4 @@ $ ./similarity_CAN_IDS can0
 
 ## Author
 
-[rangosta](https://github.com/ohirangosta)
+[shuji-oh](https://github.com/shuji-oh)
