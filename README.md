@@ -1,6 +1,8 @@
 similarity_CAN_IDS
 ====
-https://travis-ci.com/shuji-oh/similarity_CAN_IDS.svg?token=Pqsitpmqbb4Dofx7SdpB&branch=master
+
+[![Build Status](https://travis-ci.com/shuji-oh/similarity_CAN_IDS.svg?token=Pqsitpmqbb4Dofx7SdpB&branch=master)](https://travis-ci.com/shuji-oh/similarity_CAN_IDS)
+
 ## Overview
 
 The similarity_CAN_IDS is a state-of-the-art DoS attacks detection method on CAN bus.
