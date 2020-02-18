@@ -47,7 +47,7 @@ python3, gcc
 
 ## Usage
 
-$ git clone https://github.com/ohirangosta/similarity_CAN_IDS  
+$ git clone https://github.com/shuji-oh/similarity_CAN_IDS  
 $ cd similarity_CAN_IDS/off-line_learning_phase  
 $ python3 output_params.py ../test_data/test_data.log  
 $ cd ../on-line_detection_phase/  
