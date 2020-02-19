@@ -23,7 +23,7 @@ Shuji Ohira, Araya Kibrom Desta, Ismail Arai, Hiroyuki Inoue, Kazutoshi Fujikawa
 
 ## Description
 
-We demonstrated that an entropy_CAN_IDS (Conventional method) cannot detect an entropy-manipulated attack in which an adversary adjusts the entropy of a DoS attack to a normal value. Thus, we proposed the similarity_CAN_IDS that is a state-of-the-art detection method on CAN bus. The proposed method use not entropy but similarity to detect intrusion detection.
+We demonstrated that an entropy_CAN_IDS (conventional method) cannot detect an entropy-manipulated attack in which an adversary adjusts the entropy of a DoS attack to a normal value. Thus, we proposed the similarity_CAN_IDS that is a state-of-the-art detection method on the CAN bus. The proposed method use not entropy but similarity to detect intrusion detection.
 
 ## Directory Structure
 
