@@ -14,8 +14,8 @@ Shuji Ohira, Araya Kibrom Desta, Ismail Arai, Hiroyuki Inoue, Kazutoshi Fujikawa
   title={Normal and Malicious Sliding Windows Similarity Analysis Method for Fast and Accurate IDS against DoS Attacks on In-Vehicle Networks},
   author={Ohira, Shuji and Kibrom Desta, Araya and Arai, Ismail and Inoue, Hiroyuki and Fujikawa, Kazutoshi},
   journal={IEEE Access},
-  volume={},
-  pages={1--14},
+  volume={8},
+  pages={42422--42435},
   year={2020},
   publisher={IEEE}
 }
