@@ -87,76 +87,76 @@ similarity_set[0x545]=1
 similarity_set[0x5a2]=1
 
 def overlap_coefficient(num_intersection, WindowSize):
-	return float(num_intersection)/WindowSize
+    return float(num_intersection)/WindowSize
 
 def E ():
-	global Ra
-	global Rn
-	global Rt
-	return Ra*C1-Rn*C2-Rt*C3
+    global Ra
+    global Rn
+    global Rt
+    return Ra*C1-Rn*C2-Rt*C3
 
 argvs = sys.argv
 argc = len(argvs)
 if argc < 2:
-	print('Usage: python3 %s filename' % argvs[0])
-	print('[filename format]\n\t[label] [CAN ID]#[PAYLOAD]\nex)\t1 000#00000000')
-	quit()
+    print('Usage: python3 %s filename' % argvs[0])
+    print('[filename format]\n\t[label] [CAN ID]#[PAYLOAD]\nex)\t1 000#00000000')
+    quit()
 
 Data = argvs[1]
 
 with open(Data) as f:
-	for log in f:
-		log_split = log.split(" ")
-		canpacket = log_split[1].split("#")
-		canid_list.append(canpacket[0])
-		#print(canpacket[0])
-		id_i += 1
-		Packet_count += 1
+    for log in f:
+        log_split = log.split(" ")
+        canpacket = log_split[1].split("#")
+        canid_list.append(canpacket[0])
+        #print(canpacket[0])
+        id_i += 1
+        Packet_count += 1
 
-		if log_split[0] == "1":
-				True_count += 1
-		else:
-				False_count += 1
+        if log_split[0] == "1":
+                True_count += 1
+        else:
+                False_count += 1
 
-		if id_i == W:
-			w_count += 1
-			id_count = [0 for i in range(2048)]
-			for canid in canid_list:
-				#print(canid)
-				id_count[int(canid, 16)] += 1
-				if similarity_set[int(canid, 16)] == id_count[int(canid, 16)] and similarity_set[int(canid, 16)] == 1:
-					num_intersection += 1
-				
-			# calculate Simpson coefficient
-			if 19 > W:
-				SimpsonCoefficient = overlap_coefficient(num_intersection, W)
-			else:
-				SimpsonCoefficient = overlap_coefficient(num_intersection, 19)
-			#print("[%d] SimpsonCoefficient=%f"%(w_count, SimpsonCoefficient))
+        if id_i == W:
+            w_count += 1
+            id_count = [0 for i in range(2048)]
+            for canid in canid_list:
+                #print(canid)
+                id_count[int(canid, 16)] += 1
+                if similarity_set[int(canid, 16)] == id_count[int(canid, 16)] and similarity_set[int(canid, 16)] == 1:
+                    num_intersection += 1
+                
+            # calculate Simpson coefficient
+            if 19 > W:
+                SimpsonCoefficient = overlap_coefficient(num_intersection, W)
+            else:
+                SimpsonCoefficient = overlap_coefficient(num_intersection, 19)
+            #print("[%d] SimpsonCoefficient=%f"%(w_count, SimpsonCoefficient))
 
-			if SimpsonCoefficient < (ave-k*div) or (ave+k*div) < SimpsonCoefficient:
-				# True Positive
-				if True_count > False_count:
-					Da += 1
-					Ra = (float(Da)/Ta)*100
-				# False Positive
-				else:
-					Dn += 1
-					Rn = (float(Dn)/Tn)*100
-			
-			print("%d %f" % (w_count, SimpsonCoefficient))
-			if SimpsonCoefficient > Max_SimpsonCoefficient:
-				Max_SimpsonCoefficient = SimpsonCoefficient
-			if SimpsonCoefficient < Min_SimpsonCoefficient and SimpsonCoefficient != 0.0:
-				Min_SimpsonCoefficient = SimpsonCoefficient
-			Ave_SimpsonCoefficient += SimpsonCoefficient
+            if SimpsonCoefficient < (ave-k*div) or (ave+k*div) < SimpsonCoefficient:
+                # True Positive
+                if True_count > False_count:
+                    Da += 1
+                    Ra = (float(Da)/Ta)*100
+                # False Positive
+                else:
+                    Dn += 1
+                    Rn = (float(Dn)/Tn)*100
+            
+            print("%d %f" % (w_count, SimpsonCoefficient))
+            if SimpsonCoefficient > Max_SimpsonCoefficient:
+                Max_SimpsonCoefficient = SimpsonCoefficient
+            if SimpsonCoefficient < Min_SimpsonCoefficient and SimpsonCoefficient != 0.0:
+                Min_SimpsonCoefficient = SimpsonCoefficient
+            Ave_SimpsonCoefficient += SimpsonCoefficient
 
-			#list clear
-			num_intersection = 0
-			canid_list = []
-			id_i = 0
-			True_count = 0
-			False_count = 0
+            #list clear
+            num_intersection = 0
+            canid_list = []
+            id_i = 0
+            True_count = 0
+            False_count = 0
 
-	print("Ra=%f,Rn=%f,Rt=%f"%(Ra,Rn,Rt))
-	#print("Max SC=%f, Min SC=%f, Ave SC=%f" % (Max_SimpsonCoefficient, Min_SimpsonCoefficient, Ave_SimpsonCoefficient/(float(w_count))))
+    print("Ra=%f,Rn=%f,Rt=%f"%(Ra,Rn,Rt))
+    #print("Max SC=%f, Min SC=%f, Ave SC=%f" % (Max_SimpsonCoefficient, Min_SimpsonCoefficient, Ave_SimpsonCoefficient/(float(w_count))))
