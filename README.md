@@ -49,12 +49,14 @@ python3, gcc
 
 ## Usage
 
+```shell
 $ git clone https://github.com/shuji-oh/similarity_CAN_IDS  
 $ cd similarity_CAN_IDS/off-line_learning_phase  
 $ python3 output_params.py ../test_data/test_data.log  
 $ cd ../on-line_detection_phase/  
 $ make  
 $ ./similarity_CAN_IDS can0  
+```
 
 ## Contribution
 
